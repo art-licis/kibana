@@ -55,6 +55,49 @@ uiModules.get('kibana')
         $scope.limit += 50;
       };
 
+      /* New search window support */
+      $scope.mouseUp = function (event) {
+        $scope.mouseX = event.clientX;
+        $scope.mouseY = event.clientY;
+
+        $scope.text = '';
+        if (window.getSelection) {
+          $scope.text = window.getSelection().toString();
+        } else if (document.selection && document.selection.type !== 'Control') {
+          $scope.text = document.selection.createRange().text;
+        }
+
+        if ($scope.text === null || $scope.text === '') {
+          if ($scope.popover) {
+            $scope.popover = false;
+            event.preventDefault();
+          }
+        } else {
+          if (!$scope.popover) {
+            event.preventDefault();
+            $scope.popover = true;
+          }
+        }
+      };
+
+      $scope.mouseLeave = function (event) {
+        $scope.popover = false;
+      };
+
+      $scope.newSearchWindow = function () {
+        const $state = getAppState();
+        const currentLoc = window.location.href;
+
+        let newUrl = currentLoc.substring(0, currentLoc.indexOf('_a'));
+        const stash = $state._readFromURL();
+        stash.query.query_string.query += ' AND ' + $scope.text;
+        newUrl += '_a=' + $state.toQueryParam(stash);
+        $scope.popover = false;
+        if ($scope.text !== null && $scope.text !== '') {
+          window.open(newUrl, 'Kibana', 'height=600,width=800');
+        }
+      };
+
       // This exists to fix the problem of an empty initial column list not playing nice with watchCollection.
       $scope.$watch('columns', function (columns) {
         if (columns.length !== 0) return;

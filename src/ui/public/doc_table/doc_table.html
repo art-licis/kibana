@@ -22,7 +22,12 @@
     </table>
   </paginate>
 
-  <table ng-if="infiniteScroll" class="kbn-table table" ng-if="indexPattern">
+<!--  Pop-over support for new search window -->
+  <div ng-show="popover" ng-style="{ top:mouseY,left:mouseX }" style="padding:5px;display:block;border: 2px solid #3caed2;width: 140px; height: 34px;background: white;position:fixed;z-index:99999">
+    <a class="kuiLink" ng-click="newSearchWindow()">Search highlighted</a>
+  </div>
+
+  <table ng-if="infiniteScroll" class="kbn-table table" ng-if="indexPattern" ng-mouseup="mouseUp($event)">
     <thead
       kbn-table-header
       columns="columns"
