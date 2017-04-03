@@ -12,6 +12,7 @@
           </span>
           <span data-test-subj="discoverQueryHits" class="kuiLocalBreadcrumb__emphasis">{{(hits || 0) | number:0}}</span>
           <ng-pluralize count="hits" when="{'1':'hit', 'other':'hits'}"></ng-pluralize>
+          <a class="kuiLink" ng-click="downloadResults()" ng-show="hits > 0">Download...</a>
         </div>
       </div>
 

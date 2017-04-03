@@ -87,7 +87,7 @@ app.directive('discoverApp', function () {
   };
 });
 
-function discoverController($scope, config, courier, $route, $window, Notifier,
+function discoverController($scope, $http, config, courier, $route, $window, Notifier,
   AppState, timefilter, Promise, Private, kbnUrl) {
 
   const Vis = Private(VisProvider);
@@ -561,6 +561,25 @@ function discoverController($scope, config, courier, $route, $window, Notifier,
 
     return loadingVis;
   }
+
+  $scope.downloadResults = function () {
+    const postData = {
+      query: $scope.state.query,
+      range: {
+        min: $scope.timeRange.from.valueOf(),
+        max: $scope.timeRange.to.valueOf()
+      },
+      sort: $scope.state.sort
+    };
+
+    $http.post('../elasticsearch_status/hello', { 'data': JSON.stringify(postData) })
+    .success(function (resp) {
+      const iframe = document.createElement('iframe');
+      iframe.setAttribute('src','../elasticsearch_status/hello/' + resp);
+      iframe.setAttribute('style', 'display: none');
+      document.body.appendChild(iframe);
+    });
+  };
 
   function resolveIndexPatternLoading() {
     const props = $route.current.locals.ip;

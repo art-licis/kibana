@@ -5,6 +5,7 @@ import ingest from './server/routes/api/ingest';
 import search from './server/routes/api/search';
 import settings from './server/routes/api/settings';
 import scripts from './server/routes/api/scripts';
+import download from './server/routes/api/download';
 import * as systemApi from './server/lib/system_api';
 
 const mkdirp = Promise.promisify(mkdirpNode);
@@ -128,6 +129,7 @@ module.exports = function (kibana) {
       search(server);
       settings(server);
       scripts(server);
+      download(server);
 
       server.expose('systemApi', systemApi);
     }
