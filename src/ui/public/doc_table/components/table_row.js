@@ -103,6 +103,7 @@ module.directive('kbnTableRow', ['$compile', 'Private', function ($compile, Priv
         ];
 
         const mapping = indexPattern.fields.byName;
+        /*
         if (indexPattern.timeFieldName) {
           newHtmls.push(cellTemplate({
             timefield: true,
@@ -111,6 +112,7 @@ module.directive('kbnTableRow', ['$compile', 'Private', function ($compile, Priv
             column: indexPattern.timeFieldName
           }));
         }
+        */
 
         $scope.columns.forEach(function (column) {
           const isFilterable = $scope.flattenedRow[column] !== undefined
