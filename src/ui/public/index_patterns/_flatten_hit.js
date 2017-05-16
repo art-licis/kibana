@@ -60,6 +60,14 @@ export default function FlattenHitProvider(config) {
       flat[key] = _.isArray(val) && val.length === 1 ? val[0] : val;
     });
 
+    flat._message =
+    // line 1
+    flat.seq + '\t' + flat.dtSeq + '\t' + new Date(flat['@timestamp']) + '\t\t' + flat.thread + '\n' +
+    // line 2
+    flat.class + '\t' + flat.mInf + '\n' +
+    // line 3
+    flat.msg;
+
     return flat;
   }
 

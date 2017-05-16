@@ -151,6 +151,18 @@ export default function IndexPatternFactory(Private, Notifier, config, kbnIndex,
     .then(fields => {
       const scripted = indexPattern.getScriptedFields();
       const all = fields.concat(scripted);
+      const messageField = {
+        aggregatable: false,
+        analyzed: false,
+        count: 0,
+        doc_values: false,
+        indexed: false,
+        name: '_message',
+        scripted: false,
+        searchable: false,
+        type: 'string'
+      };
+      all.push(messageField);
       initFields(indexPattern, all);
     });
   }
